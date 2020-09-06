@@ -1,0 +1,9 @@
+# questions: how are parameters in python passed: i.e. *blueword* Function(parameters)
+# questions: __init__, how do they work? What does *parameter signify? 
+# questions: self.loaders, whats up with self? what is there a . ?
+# questions: probably need to take an intro python class of some sort...
+
+class DataLoaders(GetAttr):
+    def __init__(self, *loaders): self.loaders = loaders
+    def __getitem__(self, i): return self.loaders[i]
+    train,valid = add_props(lambda i,self: self[i])
