@@ -3,6 +3,16 @@
 # questions: self.loaders, whats up with self? what is there a . ?
 # questions: probably need to take an intro python class of some sort...
 
+# TODO: get this running live somewhere?
+
+!pip install -Uqq fastbook
+#!pip install panda 1.1.0 - for getting the dependency on panda library to match
+import fastbook
+fastbook.setup_book()
+
+from fastbook import *
+from fastai.vision.widgets import *
+
 class DataLoaders(GetAttr):
     def __init__(self, *loaders): self.loaders = loaders
     def __getitem__(self, i): return self.loaders[i]
@@ -14,3 +24,24 @@ bears = DataBlock(
     splitter=RandomSplitter(valid_pct=0.2, seed=42),
     get_y=parent_label,
     item_tfms=Resize(128))
+
+btn_upload = widgets.FileUpload()
+btn_upload
+
+btn_run = widgets.Button(description='Classify')
+btn_run
+
+# change is blue, why?
+def on_click_classify(change):
+    img = PILImage.create(btn_upload.data[-1])
+    out_pl.clear_output()
+    with out_pl: display(img.to_thumb(128,128))
+    pred,pred_idx,probs = learn_inf.predict(img)
+    lbl_pred.value = f'Prediction: {pred}; Probability: {probs[pred_idx]:.04f}'
+    
+btn_run.on_click(on_click_classify)
+
+btn_upload = widgets.FileUpload()
+
+VBox([widgets.Label('Select your bear!'), 
+      btn_upload, btn_run, out_pl, lbl_pred])
