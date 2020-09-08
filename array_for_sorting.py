@@ -15,3 +15,7 @@ b = 2
 a,b=b,a 
 
 print(a,b)
+
+#let's just assume i've written this already.
+this_array = Random_100_Array()
+
